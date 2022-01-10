@@ -21,7 +21,7 @@ classifier = tf.keras.Sequential([
 ])
 
 def make_dataset(batch_size, size):
-    image_shape = (size, size, 3)
+    image_shape = (None,size, size, 3)
 
     data = np.random.uniform(-1, 1, size=image_shape).astype("float32")
 
