@@ -15,6 +15,7 @@ import tensorflow_hub as hub
 # model_path = './model/'
 # loaded_model = tf.saved_model.load(model_path)
 classifier_url = "https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4"
+IMAGE_SHAPE = (224, 224)
 classifier = tf.keras.Sequential([
   hub.KerasLayer(classifier_url, input_shape=IMAGE_SHAPE + (3,))
 ])
