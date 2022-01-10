@@ -33,7 +33,7 @@ def handler(event, context):
     data,image_shape = make_dataset(batch_size, size)
 
     # Executing inference.
-    converted_img  = tf.image.convert_image_dtype(img, tf.float32)[tf.newaxis, ...]
+    converted_img  = tf.image.convert_image_dtype(data, tf.float32)[tf.newaxis, ...]
     start_time = time.time()
     result = classifier.predict(data)
     end_time = time.time()
