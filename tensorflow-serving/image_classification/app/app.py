@@ -13,7 +13,7 @@ import tensorflow as tf
 # Loading model
 model_path = './model/'
 loaded_model = tf.saved_model.load(model_path)
-classifier = loaded_model.signatures['default']
+classifier = loaded_model.signatures['serving_default']
 
 def make_dataset(batch_size, size):
     image_shape = (size, size, 3)
