@@ -5,6 +5,7 @@ import string
 import time
 import io
 import requests
+import numpy as np
 
 # Importing TensorFlow
 import tensorflow as tf
