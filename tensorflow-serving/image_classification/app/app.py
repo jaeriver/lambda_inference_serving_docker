@@ -9,11 +9,15 @@ import numpy as np
 
 # Importing TensorFlow
 import tensorflow as tf
+import tensorflow_hub as hub
 
 # Loading model
-model_path = './model/'
-loaded_model = tf.saved_model.load(model_path)
-classifier = loaded_model.signatures['default']
+# model_path = './model/'
+# loaded_model = tf.saved_model.load(model_path)
+classifier_url = https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4
+classifier = tf.keras.Sequential([
+  hub.KerasLayer(classifier_url, input_shape=IMAGE_SHAPE + (3,))
+])
 
 def make_dataset(batch_size, size):
     image_shape = (size, size, 3)
@@ -31,7 +35,7 @@ def handler(event, context):
     # Executing inference.
     converted_img  = tf.image.convert_image_dtype(data, tf.float32)[tf.newaxis, ...]
     start_time = time.time()
-    result = classifier(converted_img)
+    result = classifier.predict(converted_img)
     end_time = time.time()
 
     obj = {
