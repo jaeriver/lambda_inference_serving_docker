@@ -12,22 +12,28 @@ import tensorflow as tf
 # Loading model
 model_path = './model/'
 loaded_model = tf.saved_model.load(model_path)
-detector = loaded_model.signatures['default']
+
+def make_dataset(batch_size, size):
+    image_shape = (size, size, 3)
+    data_shape = (batch_size,) + image_shape
+
+    data = np.random.uniform(-1, 1, size=data_shape).astype("float32")
+
+    return data,image_shape
 
 def handler(event, context):
-    r = requests.get(event['url'])
-    img = tf.image.decode_jpeg(r.content, channels=3)
+    batch_size = event['batch_size']
+    size = event['size']
+    data,image_shape = make_dataset(batch_size, size)
 
     # Executing inference.
     converted_img  = tf.image.convert_image_dtype(img, tf.float32)[tf.newaxis, ...]
     start_time = time.time()
-    result = detector(converted_img)
+    result = loaded_model.predict(converted_img)
     end_time = time.time()
 
     obj = {
-        'detection_boxes' : result['detection_boxes'].numpy().tolist(),
-        'detection_scores': result['detection_scores'].numpy().tolist(),
-        'detection_class_entities': [el.decode('UTF-8') for el in result['detection_class_entities'].numpy()] 
+        "result":result
     }    
 
     return {
