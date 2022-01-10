@@ -41,8 +41,5 @@ def handler(event, context):
     obj = {
         "result":result
     }    
-
-    return {
-        'statusCode': 200,
-        'body': obj
-    }
+    print(obj)
+    return True
