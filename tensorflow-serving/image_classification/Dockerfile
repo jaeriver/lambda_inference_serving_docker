@@ -5,7 +5,7 @@ RUN pip install -r requirements.txt
 
 RUN yum -y install tar gzip
 RUN mkdir ./model
-RUN curl https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4 --output /tmp/1.tar.gz
+RUN curl -L "https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4?tf-hub-format=compressed" | tar -zxvC /tmp/1.tar.gz
 RUN tar zxf /tmp/1.tar.gz -C ./model
 RUN chmod 774 ./model/*
 
