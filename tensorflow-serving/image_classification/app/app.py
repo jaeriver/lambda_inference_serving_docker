@@ -22,9 +22,8 @@ classifier = tf.keras.Sequential([
 
 def make_dataset(batch_size, size):
     image_shape = (size, size, 3)
-    data_shape = (batch_size,) + image_shape
 
-    data = np.random.uniform(-1, 1, size=data_shape).astype("float32")
+    data = np.random.uniform(-1, 1, size=image_shape).astype("float32")
 
     return data,image_shape
 
@@ -34,6 +33,7 @@ def handler(event, context):
     data,image_shape = make_dataset(batch_size, size)
 
     # Executing inference.
+    converted_img  = tf.image.convert_image_dtype(img, tf.float32)[tf.newaxis, ...]
     start_time = time.time()
     result = classifier.predict(data)
     end_time = time.time()
